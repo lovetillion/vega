@@ -19,5 +19,5 @@ Implement a trivial Swap transaction
 
 ### Reference
 
-Whitepaper - https://docs.riftenlabs.com/cauldron/swap/
-Partial python test script - https://gist.githubusercontent.com/dagurval/7b84057868ca3512138466e0b2d4fb65/raw/d7082cb944d4be6c9749811a5494aa2bfb6765ae/gistfile1.txt
+* Whitepaper - https://docs.riftenlabs.com/cauldron/swap/
+* Partial python test script - https://gist.githubusercontent.com/dagurval/7b84057868ca3512138466e0b2d4fb65/raw/d7082cb944d4be6c9749811a5494aa2bfb6765ae/gistfile1.txt
