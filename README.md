@@ -11,4 +11,4 @@ POC libauth based adapter to trade Cauldron DEX Swaps
 
 ## Instructions
 
-* ``node vega.js```
+* ```node vega.js```
