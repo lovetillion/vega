@@ -1,5 +1,5 @@
 ![vega](https://lovetillion.org/i/vega.png)
-# vega
+# Vega
 POC mainnet-js/libauth based adapter to trade Cauldron DEX Swaps
 
 ## Setup
