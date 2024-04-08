@@ -2,8 +2,7 @@ OP_DEPTH
 OP_IF
 OP_DUP
 OP_HASH160 <$(<key.public_key> OP_HASH160
-<bitcoincash:qq5r58sdwepvyhdhchdhjkn5kz8gjxvpjs27cmw9gk>
-OP_EQUALVERIFY
+)> OP_EQUALVERIFY
 OP_CHECKSIG
 OP_ELSE
 OP_INPUTINDEX
