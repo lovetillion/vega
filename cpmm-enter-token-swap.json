@@ -1,0 +1,96 @@
+{
+  "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+  "description": "",
+  "name": "Cauldron CPMM",
+  "entities": {
+    "owner": {
+      "description": "",
+      "name": "owner",
+      "variables": {
+        "owner_key": {
+          "description": "",
+          "hdPublicKeyDerivationPath": "m/0/0",
+          "name": "owner_key",
+          "type": "HdKey"
+        }
+      }
+    }
+  },
+  "scenarios": {
+    "owner_spend_tx": {
+      "description": "",
+      "name": "owner_spend"
+    },
+    "trade_tx": {
+      "description": "",
+      "name": "trade",
+      "transaction": {
+        "inputs": [
+          {
+            "outpointTransactionHash": "",
+            "outpointIndex": 0,
+            "unlockingBytecode": [
+              "slot"
+            ],
+            "sequenceNumber": 0
+          }
+        ],
+        "outputs": [
+          {
+            "valueSatoshis": 90000000,
+            "token": {
+              "amount": 134,
+              "category": ""
+            },
+            "lockingBytecode": {
+              "script": "cauldron"
+            }
+          }
+        ]
+      },
+      "sourceOutputs": [
+        {
+          "valueSatoshis": 100000000,
+          "token": {
+            "amount": 120,
+            "category": ""
+          },
+          "lockingBytecode": [
+            "slot"
+          ]
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "spend": {
+      "passes": [
+        "owner_spend_tx"
+      ],
+      "name": "spend",
+      "script": "<owner_key.schnorr_signature.all_outputs>\n<owner_key.public_key>",
+      "unlocks": "cauldron"
+    },
+    "trade": {
+      "passes": [
+        "trade_tx"
+      ],
+      "name": "trade",
+      "script": "",
+      "unlocks": "cauldron"
+    },
+    "cauldron": {
+      "lockingType": "p2sh20",
+      "name": "cauldron",
+      "script": "// If there is an input, it must be a pubkey and signature.\n// This means that the owner wants to withdraw the contract.\nOP_DEPTH\nOP_IF\n    // It’s a withdrawal\n    OP_DUP\n    OP_HASH160\n    // withdraw_pkh\n    <0x60011c6bf3f1dd98cff576437b9d85de780f4974>\n    OP_EQUALVERIFY\n    OP_CHECKSIG\nOP_ELSE\n    // It's a trade\n    // Enforce version 2\n    OP_TXVERSION\n    <2>\n    OP_EQUALVERIFY\n    // Verify it is the correct category ID.\n    OP_INPUTINDEX OP_OUTPUTTOKENCATEGORY\n    OP_INPUTINDEX OP_UTXOTOKENCATEGORY\n    OP_EQUALVERIFY\n    // Verify that this contract lives on on the output with\n    // the same input as this contract.\n    OP_INPUTINDEX OP_OUTPUTBYTECODE\n    OP_INPUTINDEX OP_UTXOBYTECODE\n    OP_EQUALVERIFY\n    // Calculate target K\n    OP_INPUTINDEX OP_UTXOVALUE\n    OP_INPUTINDEX OP_UTXOTOKENAMOUNT\n    OP_MUL\n    // Calculate fee for trade. Fee is ~0.3%.\n    // (abs(bch out - bch in) * 3) / 1000\n    OP_INPUTINDEX OP_UTXOVALUE\n    OP_INPUTINDEX OP_OUTPUTVALUE\n    OP_SUB OP_ABS\n    <3>\n    OP_MUL\n    <1000>\n    OP_DIV\n    // Get effective output K when including the fee.\n    OP_INPUTINDEX OP_OUTPUTVALUE\n    // Subtract fee\n    OP_SWAP\n    OP_SUB\n    OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT\n    OP_MUL\n    // Verify that effective K > target K\n    OP_SWAP\n    OP_GREATERTHANOREQUAL\nOP_ENDIF"
+    },
+    "calc_owner_pkh": {
+      "name": "calc_owner_pkh",
+      "script": "<$(<owner_key.public_key> OP_HASH160)>"
+    }
+  },
+  "supported": [
+    "BCH_SPEC"
+  ],
+  "version": 0
+}
