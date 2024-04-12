@@ -43,3 +43,4 @@ Implement a trivial Swap transaction
 * [Whitepaper](https://docs.riftenlabs.com/cauldron/whitepaper/)
 * [Partial python test script](https://gist.githubusercontent.com/dagurval/7b84057868ca3512138466e0b2d4fb65/raw/d7082cb944d4be6c9749811a5494aa2bfb6765ae/gistfile1.txt)
 * [Example Cauldron tx for 50 XLV](https://explorer.bitcoinunlimited.info/tx/35d73e7e5aa4942e3f1b7bcaf1b1c2f9897e863f37e68c2b9858759fd3e76c62)
+* Currently studying how rostrum electrum server could by used via Python for the handling DEX contracts via CScript
